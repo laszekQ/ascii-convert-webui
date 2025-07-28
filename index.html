@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <div class="left_side">
+            <div class="header">
+                <p>ASCII Converter</p>
+            </div>
+
+            <div class="settings">
+                <br>
+                <input type="file" value="Open" name="open_button" id="file_input" accept="image/*">
+                <canvas id="canvas" style="display:none"></canvas>
+                <input type="button" value="Save" name="save_button">
+                <br>
+
+                <p><span>Parameters:</span></p>
+                
+                <p>Color Mode:</p>
+                <input type="radio" id="dark_mode" name="c_mode" value="d">
+                <label for="dark_mode">Dark</label>
+                <input type="radio" id="light_mode" name="c_mode" value="l">
+                <label for="light_mode">Light</label><br>
+                
+                <br>
+
+                <label for="grad">Gradient:</label><br>
+                <input type="text" id="grad" name="gradient"><br>
+
+                <br>
+
+                <label for="grad_len">Gradient length:</label><br>
+                <input type="range" id="grad_len" name="grad_len" min="2" max="10" step="1"><br>
+                
+                <br>
+
+                <p>Conversion Mode:</p>
+                <input type="radio" id="1_1" name="mode" value="1">
+                <label for="1_1">1:1</label>
+                <input type="radio" id="2_1" name="mode" value="2">
+                <label for="2_1">2:1</label>
+                <input type="radio" id="1_2" name="mode" value="2">
+                <label for="1_2">1:2</label><br>
+                
+                <br>
+
+                <input type="button" value="?" name="help_button">
+            </div>
+        </div>
+
+        <div class="output">
+            <textarea id="out_text"></textarea><br>
+
+            <br>
+
+            <div class="out_actions">
+                <input type="button" value="Save" name="save_button">
+                <input type="range" id="font_size" name="font_size" min="2" max="24" step="2" value="8">
+            </div>
+        </div>
+
+        <script src="js/wasm_module.js"></script>
+        <script src="js/script.js"></script>
+    </body>
+</html>

@@ -1,0 +1,44 @@
+body{
+    background-color: #0b0c10;
+    font-family:'Segoe UI';
+}
+
+.header{
+    padding-left: 5%;
+    padding-top: 1%;
+}
+
+.header p{
+    font-size: 32;
+    font-weight: bold;
+    color: #66fcf1;
+    
+    background-clip: content-box;
+    display: inline;
+}
+
+.settings{
+    color: #ffffff;
+    padding-left: 5%;
+    position: absolute;
+}
+
+.settings p span{
+    font-size: 18
+}
+
+.output{
+    position: absolute;
+    top: 5%;
+    left: 30%;
+}
+
+.output textarea{
+    width: 1000px;
+    height: 600px;
+    font-size: 8;
+}
+
+.output label{
+    color:white
+}
