@@ -1639,7 +1639,7 @@ var _emscripten_stack_get_current = makeInvalidEarlyAccess('_emscripten_stack_ge
 
 function assignWasmExports(wasmExports) {
   Module['_getBrightness'] = _getBrightness = createExportWrapper('getBrightness', 1);
-  Module['_pixelsToASCII'] = _pixelsToASCII = createExportWrapper('pixelsToASCII', 3);
+  Module['_pixelsToASCII'] = _pixelsToASCII = createExportWrapper('pixelsToASCII', 4);
   Module['_imgToAscii'] = _imgToAscii = createExportWrapper('imgToAscii', 7);
   Module['_malloc'] = _malloc = createExportWrapper('malloc', 1);
   _fflush = createExportWrapper('fflush', 1);

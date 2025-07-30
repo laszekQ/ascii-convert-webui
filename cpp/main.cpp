@@ -26,19 +26,19 @@ extern "C"
 
     EMSCRIPTEN_KEEPALIVE
     char pixelsToASCII(std::initializer_list<Color> pixels, 
-                    const std::string &gradient, const char c_mode)
+                       char* gradient, int grad_len, const char c_mode)
         {
             float bright = 0;
             for(const auto& pixel : pixels)
                 bright += getBrightness(pixel);
             bright /= pixels.size();
 
-            float step = COLOR_RANGE / (gradient.length() - 1);
+            float step = COLOR_RANGE / (grad_len - 1);
             int index = bright / step;
 
             // reverse the index depending on color mode
             if(c_mode == 'd')
-                index = gradient.length() - index - 1;
+                index = grad_len - index - 1;
             
             return gradient[index]; 
         }
@@ -55,9 +55,9 @@ extern "C"
         // therefore, the iterator must be incremented by 2 instead 1
         int step_y = 1 + (mode == '2');
 
-        auto getPixel = [](uint8_t* data, uint32_t x, uint32_t y, uint32_t HEIGHT)
+        auto getPixel = [](uint8_t* data, uint32_t x, uint32_t y, uint32_t WIDTH)
         {
-            uint32_t index = y * HEIGHT + x; 
+            uint32_t index = y * WIDTH + x; 
             int r = data[index + 0];
             int g = data[index + 1];
             int b = data[index + 2];
@@ -77,8 +77,8 @@ extern "C"
                 {
                 case '1':
                 {
-                    Color pixel = getPixel(data, j, i, HEIGHT);
-                    c = pixelsToASCII({pixel}, gradient, c_mode);
+                    Color pixel = getPixel(data, j, i, WIDTH);
+                    c = pixelsToASCII({pixel}, gradient, grad_len, c_mode);
                     t_out[i][j] = c;
                     break;
                 }
@@ -86,7 +86,7 @@ extern "C"
                 {
                     Color pixel1 = getPixel(data, j, i, HEIGHT);
                     Color pixel2 = getPixel(data, j, i + 1, HEIGHT);
-                    c = pixelsToASCII({pixel1, pixel2}, gradient, c_mode);
+                    c = pixelsToASCII({pixel1, pixel2}, gradient, grad_len, c_mode);
                     y /= 2;
                     t_out[y][j] = c;
                     break;
@@ -94,7 +94,7 @@ extern "C"
                 case '3':
                 {
                     Color pixel = getPixel(data, j, i, HEIGHT); 
-                    c = pixelsToASCII({pixel}, gradient, c_mode);
+                    c = pixelsToASCII({pixel}, gradient, grad_len, c_mode);
                     t_out[i][x] = c;
                     t_out[i][x + 1] = c;
                     x += 2;
