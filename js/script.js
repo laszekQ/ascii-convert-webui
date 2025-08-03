@@ -1,5 +1,5 @@
 window.onload = () => {
-Module().then((module) => {
+ASCIIModule().then((module) => {
     const input = document.getElementById("file_input");
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
@@ -14,29 +14,29 @@ Module().then((module) => {
             const width = img.width;
             const height = img.height;
 
+            console.log("Image loaded:", img.width, img.height);
+
             canvas.width = width;
             canvas.height = height;
             ctx.drawImage(img, 0, 0);
 
-            const { data } = ctx.getImageData(0, 0, width, height);
-            const byte_length = data.length;
+            const data = ctx.getImageData(0, 0, width, height);
+            const rgba_data = data.data;
+            const ptr_in = module._malloc(rgba_data.length);
+            module.HEAPU8.set(rgba_data, ptr_in);
 
-            const ptr_in = module._malloc(byte_length);
-            module.HEAPU8.set(data, ptr_in);
+            console.log(rgba_data.length);
 
-            const { gradient } = document.getElementById("grad").textContent;
-
+            const gradient = document.getElementById("grad").value.trim();
             const encoder = new TextEncoder();
-            const gradient_bytes = encoder.encode(gradient);
-            
-            const grad_ptr = module._malloc(gradient_bytes.length)
-            module.HEAPU8.set(gradient_bytes, grad_ptr);
+            const grad_bytes = encoder.encode(gradient + '\0');
+            const grad_ptr = module._malloc(grad_bytes.length)
+            module.HEAPU8.set(grad_bytes, grad_ptr);
 
-            const grad_len = parseInt(document.getElementById("grad_len").textContent);
+            const grad_len = parseInt(document.getElementById("grad_len").value);
             
             const c_mode = document.querySelector('input[name="c_mode"]:checked').value;
             const mode = document.querySelector('input[name="mode"]:checked').value.charCodeAt(0);
-
 
             const ptr_out = module._imgToAscii(ptr_in, width, height, grad_ptr, grad_len, c_mode, mode);
 
@@ -44,29 +44,8 @@ Module().then((module) => {
                 console.log('Null pointer returned!');
                 return;
             }
-            
-            const _width = width * (1 + (mode == '3' ? 1 : 0));
-            const _height = height / (1 + (mode == '2' ? 1 : 0));
-            const size = _width * _height + _height;
-            const output = new Uint8Array(module.HEAPU8.buffer, ptr_out, size);
-            const text = new TextDecoder("utf-8").decode(output);
-
-            /*
-            const result = [];
-            for (let r = 0; r < height; r++) {
-                const row = [];
-                for (let c = 0; c < width; c++) {
-                    const i = r * width + c;
-                    const charCode = module.HEAPU8[ptr_out + i];
-                    row.push(String.fromCharCode(charCode));
-                }
-
-                result.push(row);
-            }
-            
-            const text = result.map(row => row.join("")).join("\n");
-            */
-            document.getElementById("out_text").innerText = text;
+            const text = module.UTF8ToString(ptr_out);
+            document.getElementById("out_text").innerText = text;   
 
             module._free(ptr_in);
             module._free(ptr_out);

@@ -1,4 +1,4 @@
-var Module = (() => {
+var ASCIIModule = (() => {
   var _scriptName = typeof document != 'undefined' ? document.currentScript?.src : undefined;
   return (
 async function(moduleArg = {}) {
@@ -1155,6 +1155,7 @@ async function createWasm() {
   var cwrap = (ident, returnType, argTypes, opts) => {
       return (...args) => ccall(ident, returnType, argTypes, args, opts);
     };
+
 // End JS library code
 
 // include: postlibrary.js
@@ -1200,6 +1201,7 @@ Module['FS_createPreloadedFile'] = FS.createPreloadedFile;
 // Begin runtime exports
   Module['ccall'] = ccall;
   Module['cwrap'] = cwrap;
+  Module['UTF8ToString'] = UTF8ToString;
   var missingLibrarySymbols = [
   'writeI53ToI64',
   'writeI53ToI64Clamped',
@@ -1433,7 +1435,6 @@ missingLibrarySymbols.forEach(missingLibrarySymbol)
   'PATH_FS',
   'UTF8Decoder',
   'UTF8ArrayToString',
-  'UTF8ToString',
   'stringToUTF8Array',
   'stringToUTF8',
   'lengthBytesUTF8',
@@ -1819,9 +1820,9 @@ for (const prop of Object.keys(Module)) {
 );
 })();
 if (typeof exports === 'object' && typeof module === 'object') {
-  module.exports = Module;
+  module.exports = ASCIIModule;
   // This default export looks redundant, but it allows TS to import this
   // commonjs style module.
-  module.exports.default = Module;
+  module.exports.default = ASCIIModule;
 } else if (typeof define === 'function' && define['amd'])
-  define([], () => Module);
+  define([], () => ASCIIModule);
