@@ -54,4 +54,13 @@ ASCIIModule().then((module) => {
         img.src = URL.createObjectURL(file);
     });
 });
+
+const font_size_range = document.getElementById('font_size');
+font_size_range.addEventListener("input", (e) => {
+    const font_size = document.getElementById('font_size').value;
+    const out_text = document.getElementById("out_text");
+    out_text.style.fontSize = font_size + "px";
+});
+console.log(font_size_range);
+
 };
