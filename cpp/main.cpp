@@ -68,10 +68,8 @@ extern "C"
             out.push_back(c);
 
             k++;
-            if(k % WIDTH == 0){
+            if(k % WIDTH == 0)
                 out.push_back('\n');
-                printf("added \\n");
-            }
         }
 
         printf("Number of pixels: %i\n", k);

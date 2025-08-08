@@ -45,7 +45,7 @@ ASCIIModule().then((module) => {
                 return;
             }
             const text = module.UTF8ToString(ptr_out);
-            document.getElementById("out_text").innerText = text;   
+            document.getElementById("out_text").textContent = text;   
 
             module._free(ptr_in);
             module._free(ptr_out);
