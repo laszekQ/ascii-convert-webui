@@ -36,7 +36,6 @@ extern "C"
             float step = COLOR_RANGE / (grad_len - 1);
             int index = bright / step;
 
-            // reverse the index depending on color mode
             if(c_mode == 'd')
                 index = grad_len - index - 1;
             
@@ -47,8 +46,12 @@ extern "C"
     char* imgToAscii(uint8_t* data, uint32_t WIDTH, uint32_t HEIGHT, char* gradient, 
                         int grad_len,  char c_mode, char mode)
     {
+        int width = WIDTH * (1 + (mode == '2'));
+        int height = HEIGHT / (1 + (mode == '3'));
+
         std::vector<char> out;
-        out.reserve(WIDTH * HEIGHT + HEIGHT);
+        uint32_t out_size = width * height + height;
+        out.reserve(out_size);
 
         auto getPixel = [](uint8_t* data, int index)
         {
@@ -66,6 +69,9 @@ extern "C"
             Color pixel = getPixel(data, index);
             char c = pixelsToASCII({pixel}, gradient, grad_len, c_mode);
             out.push_back(c);
+
+            if(mode == '2') // 1:2
+                out.push_back(c);
 
             k++;
             if(k % WIDTH == 0)

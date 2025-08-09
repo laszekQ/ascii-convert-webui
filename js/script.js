@@ -35,8 +35,8 @@ ASCIIModule().then((module) => {
 
             const grad_len = parseInt(document.getElementById("grad_len").value);
             
-            const c_mode = document.querySelector('input[name="c_mode"]:checked').value;
-            const mode = document.querySelector('input[name="mode"]:checked').value.charCodeAt(0);
+            const c_mode = document.querySelector("input[name='c_mode']:checked").value.charCodeAt(0);
+            const mode = document.querySelector("input[name='mode']:checked").value.charCodeAt(0);
 
             const ptr_out = module._imgToAscii(ptr_in, width, height, grad_ptr, grad_len, c_mode, mode);
 
