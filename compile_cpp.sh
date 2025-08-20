@@ -4,4 +4,4 @@ emcc cpp/main.cpp -o js/wasm_module.js \
   -s EXPORTED_RUNTIME_METHODS='["ccall", "cwrap", "HEAPU8", "UTF8ToString"]' \
   -s MODULARIZE \
   -s EXPORT_NAME="ASCIIModule" \
-  -s 'ENVIRONMENT="web"'
+  -s ENVIRONMENT="web"
