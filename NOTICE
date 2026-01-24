@@ -1,1 +1,4 @@
 This application uses WebAssembly modules compiled with Emscripten.
+
+1. Emscripten System Libraries (libc++, musl)
+   - License: MIT / UIUC License
