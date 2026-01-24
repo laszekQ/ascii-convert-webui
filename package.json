@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/laszekQ/ascii-convert-webui/issues"
   },
-  "homepage": "https://github.com/laszekQ/ascii-convert-webui#readme"
+  "homepage": "https://github.com/laszekQ/ascii-convert-webui#readme",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
 }
